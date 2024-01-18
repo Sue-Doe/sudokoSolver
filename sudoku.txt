@@ -1,0 +1,58 @@
+2 - 7 - - 3 - 8 - - 5 - - 9 - - - 6 - - - - - - - - 9 - 4 - 2 - - - - - - - 8 5 - 1 6 - - - - - - - 4 - 3 - 4 - - - - - - - - 5 - - - 7 - - 2 - - 3 - 9 - - 4 - 5
+
+1 1 1 1 1 1 1 1 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+4 - 1 - - 2 - - 2 - - 1 - 1 - -
+
+
+1 1 - -
+
+
+
+
+
+private boolean solveHelper(int i, int j, int start, int attempts) {
+     boolean result = true;
+     if (i == board.length) {
+         return true;
+        }
+        
+        // If we have reached the end of the row, recurse to the next row, start of the column
+        if (j == board[i].length) {
+            return solveHelper(i + 1, 0, 1, 0);
+        }
+        
+        // If the current cell is not empty, recurse to the next cell
+        if (board[i][j] != 0) {
+            return solveHelper(i, j + 1, 1, 0);
+        }
+        
+        
+        if ( attempts >= 4) {
+            System.out.println("Future is dead");
+            result = false;
+        }
+    
+        if ( start > 4) {
+             start = 1;
+        }
+        
+        if ( board[i][j] == 0) {
+            if (!Row(i, start) && !Column(j, start)) {
+                board[i][j] = start;
+            } else {
+                solveHelper(i, j, start+1, attempts+1);
+            }
+            result = solveHelper(i, j+1, 1, 0);
+            if ( !result) {
+                board[i][j] = 0;
+            } else {
+                solveHelper(i, j+1, 1, 0);
+            }
+        } else {
+            solveHelper(i, j+1, 1, 0);
+        }
+        return result;
+    }
